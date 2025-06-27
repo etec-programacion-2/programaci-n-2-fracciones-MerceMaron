@@ -54,12 +54,33 @@ class Fraccion (private var _numerador: Int, private var _denominador: Int){ //l
     val divisorComun = mcd(numerador, denominador) // se obtiene el MCD de los números del numerador y denominador
     return Fraccion(numerador / divisorComun, denominador / divisorComun) // se devuelve una nueva fracción simplificada dividiendo el numerador y denominador por el MCD encontrado
     } 
+
+    operator fun times(otra:Fraccion):Fraccion{ //se crea una función para multiplicar dos fracciones
+        if (otra.numerador == 0 && this.numerador == 0 && otra.denominador==0 && this.denominador==0) { //validación para evitar división por cero
+            throw IllegalArgumentException("Los valores (numerador o denominador) de las fracciones no pueden ser cero")
+        }
+        val nuevoNumerador=this.numerador*otra.numerador
+        val nuevoDenominador=this.denominador*otra.denominador
+        return Fraccion(nuevoNumerador, nuevoDenominador).simplificar()
+    }
+
+    operator fun div (otra:Fraccion):Fraccion{
+        val nuevoNumerador=this.numerador*otra.denominador
+        if (otra.numerador == 0 && this.numerador == 0 && otra.denominador==0 && this.denominador==0) {
+            throw IllegalArgumentException("Los valores (numerador o denominador) de las fracciones no pueden ser cero")
+        }
+        val nuevoDenominador=this.denominador*otra.numerador
+        return Fraccion(nuevoNumerador, nuevoDenominador).simplificar()
+    }
+
+
 }
 
+/*  ### Etapa 3: Multiplicación y División de Fracciones
 
-/*/### Etapa 2: Suma y Resta de Fracciones
-
-4. **Validaciones:**
-   - Verificar que las fracciones a operar sean válidas (denominador ≠ 0)
-   - Manejar casos de fracciones negativas
-5. **Push al repositorio** con el mensaje "Etapa 2: Implementación de operadores suma y resta de fracciones".*/
+3. **Validaciones adicionales:**
+   - En división, verificar que el numerador de la segunda fracción no sea cero
+   - Manejar el caso de división por cero lanzando una excepción
+4. **Aplicar simplificación:**
+   - Usar el método `simplificar()` en los resultados de multiplicación y división
+5. **Push al repositorio** con el mensaje "Etapa 3: Implementación de operadores multiplicación y división de fracciones". */
