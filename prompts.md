@@ -289,8 +289,6 @@ class Fraccion(private var numerador: Int, private var denominador: Int) {
 
 
 
-
-
 ## Prompt 5
 - Fecha: 2025-06-24
 - Herramienta: Claude
@@ -303,5 +301,186 @@ Se ejecuta antes que cualquier constructor secundario
 Permite ejecutar código de inicialización adicional
 Se ejecuta cada vez que se crea un objeto de la clase"
 
+
+## Prompt 6
+- Fecha: 2025-06-27
+- Herramienta: ChatGPT
+- Prompt: "Explícame cómo funciona el algoritmo de euclídes"
+- Respuesta: "El algoritmo de Euclides es un método eficiente para encontrar el **máximo común divisor** (MCD) de dos números enteros. Es uno de los algoritmos más antiguos y aún se usa en la teoría de números y en aplicaciones de criptografía. Básicamente, te permite saber el mayor número que puede dividir a ambos números de forma exacta.
+
+### ¿Cómo funciona el algoritmo?
+
+El algoritmo se basa en la propiedad de que el MCD de dos números **a** y **b** (donde $a > b$) es el mismo que el MCD de **b** y **a % b** (el residuo de la división de **a** entre **b**).
+
+El procedimiento es el siguiente:
+
+1. **Divide el número mayor (a) entre el número menor (b)**.
+2. **Sustituye** el número mayor por el número menor y el número menor por el residuo de la división anterior.
+3. Repite los pasos anteriores hasta que el residuo sea 0.
+4. El último número no nulo será el MCD.
+
+### Ejemplo paso a paso
+
+Supongamos que queremos encontrar el MCD de 48 y 18:
+
+1. **Primera división**:
+
+   $$
+   48 \div 18 = 2 \quad \text{(cociente 2, residuo 12)}
+   $$
+
+   Aquí, sustituimos 48 por 18, y 18 por el residuo 12.
+
+2. **Segunda división**:
+
+   $$
+   18 \div 12 = 1 \quad \text{(cociente 1, residuo 6)}
+   $$
+
+   Ahora, sustituimos 18 por 12, y 12 por el residuo 6.
+
+3. **Tercera división**:
+
+   $$
+   12 \div 6 = 2 \quad \text{(cociente 2, residuo 0)}
+   $$
+
+   Como el residuo es 0, terminamos aquí. El MCD es 6.
+
+### Forma recursiva
+
+El algoritmo también puede expresarse de forma recursiva. Dado dos números $a$ y $b$, el MCD puede calcularse de esta manera:
+
+$$
+\text{MCD}(a, b) = 
+\begin{cases}
+b & \text{si } a \mod b = 0 \\
+\text{MCD}(b, a \mod b) & \text{si no}
+\end{cases}
+$$
+
+En resumen, el algoritmo de Euclides es extremadamente eficiente y tiene la propiedad de que en cada paso reduce el tamaño del problema de manera significativa, haciendo que el número de pasos necesarios para calcular el MCD sea bastante pequeño incluso con números grandes."
+
+- Prompt: "¿Podrías darme otro ejemplo de implementación del algoritmo de Euclides?"
+- Respuesta: "Vamos a calcular el MCD de 56 y 98.
+Pasos del algoritmo
+
+    Primera división:
+    98÷56=1(cociente 1, residuo 42)
+    98÷56=1(cociente 1, residuo 42)
+
+    Ahora sustituimos 98 por 56 y 56 por el residuo 42.
+
+    Segunda división:
+    56÷42=1(cociente 1, residuo 14)
+    56÷42=1(cociente 1, residuo 14)
+
+    Ahora sustituimos 56 por 42 y 42 por el residuo 14.
+
+    Tercera división:
+    42÷14=3(cociente 3, residuo 0)
+    42÷14=3(cociente 3, residuo 0)
+
+    Como el residuo es 0, terminamos. El MCD es 14."
+
+## Prompt 7
+- Fecha: 2025-06-27
+- Herramienta: ChatGPT
+- Prompt: "El siguiente código tiene que simplificar una fracción. Explícame qué errores tengo y por qué no devuelve una fracción simplificada:
+private fun simplificar(): Fraccion{ //se crea una función privada para simplificar la fraccion
+        var divisorComun: Int = 1
+        while (divisorComun == 0){
+            var contador=0
+            if (numerador > denominador){
+                var resto = numerador%denominador
+                if (resto==0 && contador == 0){
+                    val divisorComun = denominador
+                    break
+                } else {
+                    divisorComun=denominador/resto
+                }
+                contador++
+            } else {
+                var resto = denominador%numerador
+                if (resto==0 && contador == 0){
+                    val divisorComun = numerador
+                    break
+                } else {
+                    divisorComun=numerador/resto
+                }
+                contador++
+            }
+        }
+        return Fraccion(numerador / divisorComun, denominador / divisorComun) //retorna la fracción simplificada
+    }  
+"
+- Respuesta: "Tu código tiene varios problemas que impiden que funcione correctamente para simplificar la fracción. A continuación te explico los errores y cómo puedes corregirlos:
+
+### Errores:
+
+1. **Condición del bucle `while`**:
+   El bucle `while (divisorComun == 0)` es incorrecto. Deberías usar una condición que permita buscar el **máximo común divisor (MCD)** de manera efectiva. La condición actual no va a funcionar correctamente, ya que el valor de `divisorComun` es siempre 1 al principio y nunca se actualiza correctamente para salir del bucle.
+
+2. **Lógica incorrecta para encontrar el divisor común**:
+   En la lógica que usas para encontrar el divisor común, estás calculando el resto y luego haciendo una división para encontrar un nuevo valor para `divisorComun`. Esta lógica no está correcta y no va a producir el MCD adecuado. En lugar de eso, necesitas usar el algoritmo de **Euclides** (como mencionamos antes) para encontrar el MCD.
+
+3. **Redefinición de la variable `divisorComun` dentro del bloque `if`**:
+   En los bloques `if` dentro de cada rama de tu condición, estás creando una nueva variable `divisorComun` dentro de un alcance limitado (dentro del `if`), lo cual es innecesario y no afecta el valor de la variable `divisorComun` en el resto del código. Deberías evitar usar `val` en esos bloques.
+
+4. **Lógica de la fracción invertida en algunos casos**:
+   En tu código actual, no estás manejando correctamente los casos en los que el numerador es menor que el denominador. Al final del bucle, la fracción debería ser simplificada independientemente de cuál número es mayor.
+
+### Solución:
+
+Voy a proponerte una implementación más sencilla y eficiente, utilizando el **algoritmo de Euclides** para encontrar el MCD y simplificar la fracción.
+
+### Código corregido:
+
+```kotlin
+private fun simplificar(): Fraccion {
+    // Función que devuelve el MCD usando el algoritmo de Euclides
+    fun mcd(a: Int, b: Int): Int {
+        var num1 = a
+        var num2 = b
+        while (num2 != 0) {
+            val resto = num1 % num2
+            num1 = num2
+            num2 = resto
+        }
+        return num1
+    }
+
+    // Obtener el MCD de numerador y denominador
+    val divisorComun = mcd(numerador, denominador)
+
+    // Devolver la fracción simplificada
+    return Fraccion(numerador / divisorComun, denominador / divisorComun)
+}
+```
+
+### Explicación de los cambios:
+
+1. **Función `mcd`**:
+   He creado una función interna llamada `mcd`, que implementa el algoritmo de Euclides. Esta función toma dos enteros, `a` y `b`, y encuentra su máximo común divisor. El algoritmo sigue el mismo principio que te expliqué antes:
+
+   * Divide el número mayor por el menor.
+   * Luego, reemplaza el número mayor por el menor y el menor por el residuo.
+   * Repite hasta que el residuo sea 0, y el último número no nulo es el MCD.
+
+2. **Uso del MCD**:
+   Una vez que tenemos el MCD, lo usamos para dividir tanto el numerador como el denominador, simplificando así la fracción.
+
+3. **Fracción simplificada**:
+   El código ahora simplifica correctamente la fracción creando una nueva instancia de la clase `Fraccion` con los valores simplificados.
+
+### Ejemplo:
+
+Supongamos que tienes una fracción como `36/60`. El MCD de 36 y 60 es 12, por lo que la fracción simplificada sería `36 / 12 / 60 / 12 = 3/5`.
+
+### Resumen de cambios:
+
+1. Se utiliza el **algoritmo de Euclides** para encontrar el MCD.
+2. Se elimina la lógica incorrecta para calcular el divisor común manualmente.
+3. Se usa una función separada para el cálculo del MCD, lo que hace que el código sea más limpio y reutilizable."
 
 
