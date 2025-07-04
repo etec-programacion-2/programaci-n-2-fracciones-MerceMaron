@@ -73,14 +73,37 @@ class Fraccion (private var _numerador: Int, private var _denominador: Int){ //l
         return Fraccion(nuevoNumerador, nuevoDenominador).simplificar()
     }
 
+    operator fun compareTo(otra: Fraccion): Int { //se crea una función para comparar dos fracciones
+        val thisDecimal = this.numerador.toDouble() / this.denominador //se convierte la fracción a decimal
+        val otraDecimal = otra.numerador.toDouble() / otra.denominador //se convierte la otra fracción a decimal
+        return thisDecimal.compareTo(otraDecimal) //se compara el valor decimal de ambas fracciones
+    }
+
+    override operator fun equals(other: Any?): Boolean { //se sobreescribe el operador de igualdad
+        if (this === other) return true //si son la misma instancia, son iguales
+        if (other !is Fraccion) return false //si el otro objeto no es una fracción, no son iguales
+        return this.numerador * other.denominador == this.denominador * other.numerador //se compara el producto cruzado para verificar igualdad
+    }
+
+    fun esMayor(otra: Fraccion): Boolean { //se crea un método para verificar si una fracción es mayor que otra
+        return this > otra //se utiliza el operador de comparación
+    }
+
+    fun esMenor(otra: Fraccion): Boolean { //se crea un método para verificar si una fracción es menor que otra
+        return this < otra //se utiliza el operador de comparación
+    }
+
+    fun aDecimal (): Double { //se crea un método para convertir la fracción a decimal
+        return this.numerador.toDouble() / this.denominador //se divide el numerador por el denominador y se convierte a Double
+    }
+
+    companion object { //se crea un objeto companion para definir métodos estáticos
+        fun deDecimal_Fracción(decimal: Double): Fraccion { //método para crear una fracción a partir de un decimal
+            val numerador = (decimal * 10000).toInt() //se multiplica el decimal por 10000 para evitar problemas de precisión
+            val denominador = 10000 //se define el denominador como 10000
+            return Fraccion(numerador, denominador).simplificar() //se devuelve la fracción simplificada
+        }
+    }
 
 }
 
-/*  ### Etapa 3: Multiplicación y División de Fracciones
-
-3. **Validaciones adicionales:**
-   - En división, verificar que el numerador de la segunda fracción no sea cero
-   - Manejar el caso de división por cero lanzando una excepción
-4. **Aplicar simplificación:**
-   - Usar el método `simplificar()` en los resultados de multiplicación y división
-5. **Push al repositorio** con el mensaje "Etapa 3: Implementación de operadores multiplicación y división de fracciones". */

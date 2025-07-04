@@ -484,3 +484,110 @@ Supongamos que tienes una fracción como `36/60`. El MCD de 36 y 60 es 12, por l
 3. Se usa una función separada para el cálculo del MCD, lo que hace que el código sea más limpio y reutilizable."
 
 
+## Prompt 8
+- Fecha: 2025-07-04
+- Herramienta: Claude
+- Prompt: "Hola, explícame cómo funciona o para qué sirve el parámetro Any? en la siguiente línea de código de Kotlin: operator fun equals(other: Any?): Boolean"
+- Respuesta: "El parámetro other: Any? en la función equals tiene un propósito muy específico en Kotlin:
+¿Qué es Any??
+Any? es un tipo que representa "cualquier objeto o null". Se descompone en:
+
+Any es la clase base de todos los tipos en Kotlin (equivalente a Object en Java)
+El ? indica que el parámetro puede ser null
+
+¿Por qué se usa en equals?
+La función equals necesita poder comparar tu objeto con cualquier cosa que le pases, porque en la práctica puedes hacer comparaciones.
+El Any? te permite recibir cualquier cosa y luego tú decides internamente si son objetos comparables o no. Es parte del contrato estándar de equals que heredaste de la clase Any."
+
+
+## Prompt 9
+- Fecha: 2025-07-04
+- Herramienta: Claude
+- Prompt: "Qué es un método companion object?"
+- Respuesta: "Un companion object en Kotlin es una forma de crear métodos y propiedades que pertenecen a la clase en sí, no a instancias específicas de la clase. Es el equivalente a los métodos y campos static de Java.
+Sintaxis básica
+
+kotlin
+
+class MiClase {
+    companion object {
+        fun metodoEstatico() {
+            println("Este método no necesita una instancia")
+        }
+        
+        val CONSTANTE = "Valor constante"
+    }
+}
+
+Cómo usarlo
+
+kotlin
+
+// Llamas al método directamente en la clase
+MiClase.metodoEstatico()
+
+// Accedes a la constante directamente
+println(MiClase.CONSTANTE)
+
+// NO necesitas crear una instancia:
+// val objeto = MiClase() ❌ No necesario
+
+Casos de uso comunes
+1. Factory methods (métodos de creación)
+
+kotlin
+
+class Persona(val nombre: String, val edad: Int) {
+    companion object {
+        fun crearAdulto(nombre: String) = Persona(nombre, 18)
+        fun crearBebe(nombre: String) = Persona(nombre, 0)
+    }
+}
+
+// Uso:
+val adulto = Persona.crearAdulto("Juan")
+val bebe = Persona.crearBebe("María")
+
+2. Constantes
+
+kotlin
+
+class Calculadora {
+    companion object {
+        const val PI = 3.14159
+        const val E = 2.71828
+    }
+}
+
+3. Utilidades relacionadas con la clase
+
+kotlin
+
+class Usuario(val email: String) {
+    companion object {
+        fun validarEmail(email: String): Boolean {
+            return email.contains("@")
+        }
+    }
+}
+
+// Uso:
+if (Usuario.validarEmail("test@email.com")) {
+    val usuario = Usuario("test@email.com")
+}
+
+Diferencias con Java
+
+En Java escribirías:
+
+java
+
+public class MiClase {
+    public static void metodoEstatico() { }
+    public static final String CONSTANTE = "valor";
+}
+
+En Kotlin es más explícito con companion object, pero funciona de manera similar.
+
+La ventaja del companion object es que puede implementar interfaces y ser más flexible que los métodos estáticos tradicionales."
+
