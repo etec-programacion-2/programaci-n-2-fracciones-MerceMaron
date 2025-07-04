@@ -10,7 +10,7 @@
 
 **Curso:** 4° Informática
 
-**Fecha de entrega:** [Escribir aquí la fecha de entrega]
+**Fecha de entrega:** 04/07/2025
 
 ---
 

@@ -14,4 +14,9 @@ fun main() {
     println("Fracción 1 a decimal: ${valores.aDecimal()}")
     println("Fracción 2 a decimal: ${valores2.aDecimal()}")
     println("Fracción 1 desde decimal: ${Fraccion.deDecimal_Fracción(0.64)}")
+
+    
+
+
+
 }

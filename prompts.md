@@ -591,3 +591,66 @@ En Kotlin es más explícito con companion object, pero funciona de manera simil
 
 La ventaja del companion object es que puede implementar interfaces y ser más flexible que los métodos estáticos tradicionales."
 
+## Prompt 10
+- Fecha: 2025-07-04
+- Herramienta: Claude
+- Prompt: "Cómo llamo a los valores de el método scanner en Kotlin?"
+- Respuesta: "En Kotlin, para usar Scanner necesitas importarlo y luego puedes leer diferentes tipos de datos. Aquí te explico cómo:
+Importar Scanner
+import java.util.Scanner
+Crear una instancia
+val scanner = Scanner(System.`in`)
+val scanner = Scanner(System.`in`)
+
+// Leer una palabra (hasta el primer espacio)
+println("Ingresa una palabra:")
+val palabra = scanner.next()
+
+// Leer una línea completa (incluyendo espacios)
+println("Ingresa una frase:")
+val frase = scanner.nextLine()
+
+val scanner = Scanner(System.`in`)
+
+// Leer un entero
+println("Ingresa un número entero:")
+val entero = scanner.nextInt()
+
+// Leer un decimal
+println("Ingresa un decimal:")
+val decimal = scanner.nextDouble()
+
+// Leer un float
+println("Ingresa un float:")
+val float = scanner.nextFloat()
+
+println("Ingresa true o false:")
+val booleano = scanner.nextBoolean()
+
+import java.util.Scanner
+
+fun main() {
+    val scanner = Scanner(System.`in`)
+    
+    println("¿Cuál es tu nombre?")
+    val nombre = scanner.nextLine()
+    
+    println("¿Cuál es tu edad?")
+    val edad = scanner.nextInt()
+    
+    println("¿Cuál es tu altura en metros?")
+    val altura = scanner.nextDouble()
+    
+    println("Hola $nombre, tienes $edad años y mides $altura metros")
+    
+    // Cerrar el scanner
+    scanner.close()
+}
+
+Scanner(System.`in`).use { scanner ->
+    println("Ingresa tu nombre:")
+    val nombre = scanner.nextLine()
+    println("Hola $nombre")
+}
+"
+

@@ -106,4 +106,3 @@ class Fraccion (private var _numerador: Int, private var _denominador: Int){ //l
     }
 
 }
-
