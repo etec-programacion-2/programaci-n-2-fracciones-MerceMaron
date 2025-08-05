@@ -1,7 +1,7 @@
 package org.example
 import java.util.Scanner
 
-fun main() {
+fun main() { //   NOTA: ACÁ EN LUGAR DE PONER fun main () DEBERÍA IR UNA CLASE. EL PROYECTO NO PUEDE TENER VARIAS fun main ().
     
     fun mostrarMenu() {
        println("=== CALCULADORA DE FRACCIONES ===")
